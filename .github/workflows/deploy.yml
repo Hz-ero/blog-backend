@@ -27,5 +27,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.PORT }}
-          localPath: './env/'            
+          localPath: './env/'
           remotePath: '/home/github-demo/'
