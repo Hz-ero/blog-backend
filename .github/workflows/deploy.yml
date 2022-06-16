@@ -9,23 +9,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       
-      - name: multiple command
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            cd /home/github-demo
-            rm -rf *
-
-      - name: deploy
-        uses: Creepios/sftp-action@v1.0.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          privateKey: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.PORT }}
-          localPath: './env/'
-          remotePath: '/home/github-demo/'
+      - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@main
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        ARGS: "-rltgoDzvO --delete"
+        SOURCE: "env/"
+        REMOTE_HOST: ${{ secrets.HOST }}
+        REMOTE_USER: ${{ secrets.USERNAME }}
+        TARGET: "/home/github-demo/"
+        EXCLUDE: "/dist/, /node_modules/"
