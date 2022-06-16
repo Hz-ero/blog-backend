@@ -39,13 +39,14 @@ jobs:
           pnpm install
           pnpm run build
       
-      - name: Upload ftp
-        uses: sebastianpopp/ftp-action@releases/v2
-        with:
-          host: ${{ secrets.HOST }}
-          user: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          localDir: "dist"
-          remoteDir: "home/github-demo"
-          options: "--delete --asci"
+      - name: ssh deploy
+        uses: hengkx/ssh-deploy@v1.0.1
+        env:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          PORT: ${{ secrets.PORT }}
+          SOURCE: 'dist/'
+          TARGET: '/home/github-demo'
+          AFTER_COMMAND: 'pnpm install --production'
 
