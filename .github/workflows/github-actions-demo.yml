@@ -47,7 +47,7 @@ jobs:
           SOURCE: "dist/"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: '/home/github-actions/'
+          TARGET: '/home/github-demo/'
           EXCLUDE: "/dist/, /node_modules/" 
 
 
