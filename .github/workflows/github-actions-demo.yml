@@ -39,14 +39,14 @@ jobs:
           pnpm install
           pnpm run build
       
-      - name: ssh deploy
-        uses: hengkx/ssh-deploy@v1.0.1
-        env:
-          HOST: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-          PORT: ${{ secrets.PORT }}
-          SOURCE: 'dist/'
-          TARGET: '/home/github-demo'
-          AFTER_COMMAND: 'pnpm install --production'
+      - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@main
+      env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "dist/"
+          REMOTE_HOST: ${{ secrets.HOST }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: "/home/github-demo/"
+          EXCLUDE: "/dist/, /node_modules/"
 
