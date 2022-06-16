@@ -6,6 +6,8 @@ jobs:
   setup-build-deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: deploy
         uses: Creepios/sftp-action@v1.0.3
         with:
@@ -13,5 +15,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.PORT }}
-          localPath: 'src/'
+          localPath: './src/index.ts'
           remotePath: '/home/github-demo'
