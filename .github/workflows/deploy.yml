@@ -1,21 +1,22 @@
-on: 
-  push:
-    branches:
-      - main
+name: Node CI
+
+on: [push]
+
 jobs:
-  setup-build-deploy:
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      
-      - name: Deploy to Server
+    - uses: actions/checkout@v1
+
+    - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
       env:
-        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-        ARGS: "-rltgoDzvO --delete"
-        SOURCE: "env/"
-        REMOTE_HOST: ${{ secrets.HOST }}
-        REMOTE_USER: ${{ secrets.USERNAME }}
-        TARGET: "/home/github-demo/"
-        EXCLUDE: "/dist/, /node_modules/"
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "env/"
+          REMOTE_HOST: ${{ secrets.HOST }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: "/home/github-demo/"
+          EXCLUDE: "/dist/, /node_modules/"
