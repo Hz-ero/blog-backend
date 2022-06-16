@@ -13,5 +13,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.PORT }}
-          localPath: './package.json'
+          localPath: './src/index.ts'
           remotePath: '/home/github-demo'
