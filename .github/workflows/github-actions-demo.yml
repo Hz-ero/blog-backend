@@ -6,11 +6,12 @@ jobs:
   setup-build-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
+      - name: deploy
+        uses: Creepios/sftp-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
+          privateKey: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.PORT }}
-          script: whoami
+          localPath: './package.json'
+          remotePath: '/home/github-demo'
