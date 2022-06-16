@@ -8,6 +8,37 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.2
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies and build
+        run: |
+          pnpm install
+          pnpm run build
+
       - name: deploy
         uses: Creepios/sftp-action@v1.0.3
         with:
@@ -15,5 +46,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.PORT }}
-          localPath: './src/index.ts'
-          remotePath: '/home/github-demo'
+          localPath: './src/api/'
+          remotePath: '/home/github-demo/'
